@@ -1,0 +1,75 @@
+package main
+import (
+"fmt"
+"math"
+)
+func main(){
+        fmt.Println(getSum(2147483647,-2147483648))
+}
+func getSum(a int, b int) int {
+    var  big_place []int
+    var small_place []int
+    var  length int
+    var  big bool
+    if math.Abs(float64(a)) > math.Abs(float64(b)) {
+        big_place,length = spilt(a,0)
+	big = true
+    }else{
+        big_place,length = spilt(b,0)
+   	big = false
+    }
+	if big {
+	small_place,length = spilt(b,length)
+	}else{
+	small_place,length = spilt(a,length)
+	}
+	for i,v := range(big_place){
+	sub := v^small_place[i]
+	small[i] := sub ^ v ^ small[i]
+	}
+	
+	 
+}
+
+func spilt(a int, b int) ( []int, int){
+    res := make([]int,b)
+    i :=0
+    if a > 0 {
+        for a >0 {
+            if ( b == 0 ){
+                res= append(res,a%2)
+            }else{
+                res[i] = a%2
+            }
+            i++
+            a/= 2
+        }
+	if ( b == 0 ){
+        res = append(res,0)
+	}else{
+	res[i] = 0
+	}
+    }else{
+        a = int(math.Abs(float64(a)))
+        sub := 1
+	for a >0 {
+            if ( b == 0 ){
+                res= append(res,1^a%2)
+		sub ^= 1^a%2
+            }else{
+                res[i] = ^a%2
+		sub ^= 1^a%2
+            }
+            i++
+            a/= 2
+        }
+	if b == 0 {
+        res = append(res,1^sub)
+	}else{
+	res[i] = 1^sub
+	}
+    }
+    
+    return res, i
+    
+}
